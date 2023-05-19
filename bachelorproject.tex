@@ -1,0 +1,54 @@
+\documentclass{usiinfbachelorproject}
+
+\captionsetup{labelfont={bf}}
+
+\author{Arnaud Fauconnet}
+
+\title{From flying balls to colliding polygons}
+\subtitle{2D Physics Engine: Rigid Body Simulation}
+\versiondate{\today}
+
+\begin{committee}
+	\advisor[Universit\`a della Svizzera Italiana,
+		Switzerland]{Prof.}{Antonio}{Carzaniga}
+\end{committee}
+
+\abstract {
+	Physics engines are a fun and interesting way to learn about a lot of
+	different subjects. First the theoretical concepts, such as the equations
+	that dictate the motion of the objects, together with their components, need
+	to be thoroughly understood. Then there is the necessity of finding a way to
+	represent all of those concepts in a given programming language and to
+	make them as efficient as possible so that the simulation runs fluidly.
+	The task to be completed here was to extend an already existing
+	physics engine that only made circles bounce off each other. The extension
+	was focused on having the ability to generate some arbitrary polygons and
+	make them bounce off each other in a physically accurate way. The main
+	issues that rose up during the development of the extension: determining the
+	inertia of a arbitrary polygon, which is important for realistic
+	impacts; having an accurate collision detection system, which allows the
+	engine to know when to make two polygons bounce off each other. Once those
+	aspects were worked on and polished, the rest of the implementation went
+	smoothly.
+
+}
+
+
+\usepackage{subfiles} % Best loaded last in the preamble
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+
+\subfile{./sections/intro.tex}
+\subfile{./sections/tech_background.tex}
+\subfile{./sections/theoretical_background.tex}
+\subfile{./sections/solution.tex}
+\subfile{./sections/conclusion.tex}
+
+%%%%%
+\bibliographystyle{abbrv}
+\bibliography{references}
+
+\end{document}

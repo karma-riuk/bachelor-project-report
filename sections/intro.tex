@@ -1,0 +1,25 @@
+\section{Introduction}
+\subsection{Goal of the project}
+The goal of the project was to extend an existing physics engine called
+"flying-balls"\footnote{The state of the project before the extension can be
+	found at \url{https://github.com/carzaniga/flying-balls/tree/c++-port}} by Prof. Antonio
+Carzaniga. This physics engine simulated the interactions between circles in a
+two-dimensional space. These circles appear in the window with a random
+position, together with a random initial velocity vector. The simulation would
+then just calculate the position of each circle in the following frame and draw
+it in its new state. If two circles were to collide with each other, the engine
+would detect it and make those circles bounce off each other. The resulting
+position and speed would be decided by the physics equations that govern the
+motion of such objects.
+
+The extension this project was asked to bring is the possibility to have more
+complex shapes interact with each other, such as polygons. The polygons would
+have to be arbitrary and bounce off other polygons present in the scene.
+
+\subsection{State of the art}
+
+There are a lot of 2D physiques engines across the internet. The purpose of this
+project was not to bring something new to the already existing landscape, but
+rather learn how to complete every step of the process (polygons generation,
+collision detection, kinematics resolution) from scratch, simply having a
+pre-existing way to represent the shapes on the screen.
