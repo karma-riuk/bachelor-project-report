@@ -1,1 +1,167 @@
 \section{Theoretical Background}
+The theoretical background is everything related to the physics part of the
+project. It covers the calculating the inertia of different types of polygons;
+different algorithms to detect whether there is a collision between two
+polygons; the resolution of the collision, i.e. finding the final
+velocity vectors and angular speed of those polygons.
+
+\subsection{Moment of inertia}
+
+The inertia of an object refers to the tendency of an object to resist a change
+of its state of motion or rest, it describes how the object behaves when forces
+are applied to it. An object with a lot of inertia requires more force to change
+its motion, either to make it move if it's at rest or to stop it if it's already
+moving. On the other hand, an object with less inertia is easier to set in
+motion or bring to a halt.
+
+The moment of inertia is similar but is used in a slightly different context, it
+specifically refers to the rotational inertia of an object. It measures an
+object's resistance to changes in its rotational motion and how its mass is
+distributed with respect to is axis of rotation.
+
+In the case of this project the axis of rotation is the one along the $z$-axis
+(perpendicular to the plane of the simulation) and placed at the barycenter of
+the polygon.
+
+The general formula for the moment of inertia is
+$$ I_Q = \int \vec r^2 \rho(\vec r) \diff A $$
+where $\rho$ is the density of object $Q$ in the point $\vec r$ across the
+small pieces of area $A$ of the object.
+
+In our case, since we are implementing a 2D engine we can use the $\mathbb{R}^2$
+coordinate systems, thus the formula becomes
+$$ I_Q = \iint \rho(x, y) \vec r^2 \diff x\diff y$$
+and since the requirements express that the mass of the polygons is spread
+uniformly across its surface, the formula finally becomes
+\begin{equation}
+	\label{eq:moment}
+	I_Q = \rho \iint x^2 + y^2 \diff x\diff y
+\end{equation}
+
+The bounds of the integral depend on the shape of the polygon. In the following
+sections, we will describe how to compute those bounds, then we will show a
+different technique to compute the moment of inertia of arbitrary polygons.
+
+\subsubsection{Rectangle}
+The moment of inertia of a rectangle of width $w$ and height $h$ with respect to
+the axis of rotation that passes through its barycenter can be visualized in the
+\figref{fig:rectangle_inertia}.
+
+\begin{figure}[H]
+	\centering
+	\hfill
+	\begin{subfigure}[]{.4\textwidth}
+		\centering
+		\inputtikz{rectangle_inertia2d}
+		\caption{2d view of rectangle with axis of rotation}
+		\label{fig:rectangle_inertia2d}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[]{.4\textwidth}
+		\centering
+		\inputtikz{rectangle_inertia3d}
+		\caption{3d view of rectangle with axis of rotation}
+		\label{fig:rectangle_inertia3d}
+	\end{subfigure}
+	\hfill\null
+	\caption{Representation of rectangle with respect to axis of rotation $z$}
+	\label{fig:rectangle_inertia}
+\end{figure}
+
+As figure \figref{fig:rectangle_inertia2d} implies, the bounds of equation
+\ref{eq:moment} are trivial to derive:
+\begin{equation}
+	\label{eq:rect_moment}
+	I_{\text{rect}} = \rho \int_{-\frac{h}{2}}^{\frac{h}{2}}
+	\int_{-\frac{w}{2}}^{\frac{w}{2}}  x^2 + y^2 \diff x \diff y
+	= \frac{\rho wh}{12} \left( w^2 + h^2 \right)
+\end{equation}
+and since $\rho w h$ is the density of the rectangle multiplied by its area, we
+can replace this term by its mass $m$, thus
+\begin{equation}
+	I_{\text{rect}} = \frac{1}{12} m\left(w^2 + h^2\right)
+\end{equation}
+
+All the steps to compute equation~\ref{eq:rect_moment} can be found in equation
+\ref{eq:rect_moment_long} in Appendix \ref{appendix:calculations}.
+
+\subsubsection{Regular Polygons}
+A regular polygon is a shape that has sides of equal length and angles between
+those sides of equal measure. A polygon of $n$ sides can be subdivided in $n$
+congruent (and isosceles since they are all the radius of the circumscribing
+circle) triangles that all meet in the polygon's barycenter,
+as demonstrated in Figure \ref{fig:pentagon_triangles} with a pentagon.
+
+\begin{figure}[H]
+	\centering
+	\hfill
+	\begin{subfigure}[]{.45\textwidth}
+		\centering
+		\inputtikz[.6]{pentagon}
+		\caption{Regular polygon of 5 sides with its barycenter}
+		\label{fig:pentagon}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[]{.45\textwidth}
+		\centering
+		\inputtikz[.6]{pentagon_congruent}
+		\caption{Pentagon divided in 5 congruent triangles}
+		\label{fig:pentagon_triangles}
+	\end{subfigure}
+	\hfill\null
+	\caption{Subdivision of regular polygons into congruent triangles}
+	\label{fig:regular_poly}
+\end{figure}
+
+If we define one of the sub-triangle of the regular polygon as $T$, then we can
+find the moment of inertia $I_T$ when it is rotating about the barycenter. To
+find the bounds of the integral in equation \ref{eq:moment}, we can take the
+triangle $T$ and place it along the $x$-axis so that it is symmetric likes shown
+in figure. Assuming the side length of the polygon is $l$, the height of the
+triangle $T$ is $h$ and the angle of the triangle on the barycenter of the
+polygon to be $\theta$, then
+\begin{figure}[H]
+	\centering
+	\inputtikz[.3]{isosceles}
+	\caption{Sub-triangle $T$ of regular polygon}
+	\label{fig:subtriangle}
+\end{figure}
+we can see the bounds for the integral
+\begin{equation}
+	\label{eq:subtriangle_moment}
+	I_{T} = \rho \int_0^h\int_{-\frac{lx}{2h}}^{\frac{lx}{2h}}x^2 + y^2 \diff
+	y\diff x= \frac{m_Tl^2}{24} \left(1 + 3\cot^2\left(\frac{\theta}{2}\right)\right)
+\end{equation}
+
+All the steps to compute equation~\ref{eq:subtriangle_moment} can be found in
+equation \ref{eq:subtriangle_moment_long} in Appendix
+\ref{appendix:calculations}.
+
+Now that we have the moment of inertia of the sub-triangle, we can make the link
+to the overall polygon. Since
+$$ \theta = \frac{2\pi}{n} \implies \frac{\theta}{2} = \frac{\pi}{n} $$
+and the moment of inertia are additive (as long they are as they are about the same
+axis) we can get the moment of inertia with
+$$ I_{\text{regular}} = n I_T $$
+and since the mass of the regular polygon $m$ is the sum of the masses of the
+sub-triangle
+$$ m = n m_T $$
+we have that
+\begin{equation}
+	\label{eq:regular_moment}
+	I_{\text{regular}} = \frac{ml^2}{24} \left( 1 + 3\cot^2\left(\frac{\pi}{n}\right) \right)
+\end{equation}
+
+
+
+
+\subsubsection{Arbitrary Polygons}
+\subsection{Collision detection}
+\subsubsection{Separating Axis Theorem}
+\subsubsection{Vertex collisions}
+
+\subsection{Collision resolution}
+\label{sub:resolution}
+\cite{collision:resolution}
+\subsubsection{Physics}
+\subsubsection{Solving for the impulse parameter}

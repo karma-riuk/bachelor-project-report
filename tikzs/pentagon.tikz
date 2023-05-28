@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (0, 4) {};
+		\node [style=none] (1) at (3.804, 1.236) {};
+		\node [style=none] (2) at (2.352, -3.236) {};
+		\node [style=none] (3) at (-2.352, -3.236) {};
+		\node [style=none] (4) at (-3.804, 1.236) {};
+		\node [style=Medium dot] (5) at (0, 0) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw[thick] (3.center) to (2.center);
+		\draw[thick] (2.center) to (1.center);
+		\draw[thick] (1.center) to (0.center);
+		\draw[thick] (0.center) to (4.center);
+		\draw[thick] (4.center) to (3.center);
+
+		% \foreach \i in {0, ..., 5}{
+		% 		\draw (5.center) to (\i.center);
+		% 		\tkzMarkSegment[pos=.5,mark=||](5,\i);
+		% 	}
+	\end{pgfonlayer}
+\end{tikzpicture}

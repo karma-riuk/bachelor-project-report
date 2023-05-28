@@ -1,0 +1,46 @@
+\appendix
+
+\section{Calculations}
+\label{appendix:calculations}
+
+\paragraph{Moment of inertia of rectangle}
+\begin{equation}
+	\label{eq:rect_moment_long}
+	\begin{split}
+		I_{\text{rect}} & =
+		\rho \int_{-\frac{h}{2}}^{\frac{h}{2}} \int_{-\frac{w}{2}}^{\frac{w}{2}}  x^2 + y^2 \diff x \diff y           \\
+		& = 4 \rho \int_{0}^{\frac{h}{2}} \int_{0}^{\frac{w}{2}}  x^2 + y^2 \diff x \diff y           \\
+		& = 4 \rho \int_{0}^{\frac{h}{2}} \Biggl[\frac{1}{3} x^3 + x y^2 \Biggr]_{0}^{\frac{w}{2}} dy \\
+		& = 4 \rho \int_{0}^{\frac{h}{2}} \frac{1}{3} \frac{w^3}{8} + \frac{w}{2} y^2 dy              \\
+		& = 2 \rho \int_{0}^{\frac{h}{2}} \frac{w^3}{12} + w y^2 dy                                   \\
+		& = 2 \rho \Biggl[ \frac{w^3}{12}  y + \frac{w}{3} y^3 \Biggr]_{0}^{\frac{h}{2}}              \\
+		& = 2 \rho \frac{w}{3} \Biggl[ \frac{w^2}{4}y + y^3 \Biggr]_{0}^{\frac{h}{2}}                 \\
+		& = 2 \rho \frac{w}{3} \left( \frac{w^2}{4}\frac{h}{2} + \frac{h^3}{8} \right)                \\
+		& = \rho \frac{w}{3} \left( \frac{w^2}{4}h + \frac{h^3}{4} \right)                            \\
+		& = \frac{\rho wh}{12} \left( w^2 + h^3 \right)                                               \\
+	\end{split}
+\end{equation}
+
+\newpage
+\paragraph{Moment of inertia of sub-triangle of regular polygon}
+Before starting the calculations, it is to be noted that according to Figure
+\ref{fig:subtriangle}, we have that
+$$ \tan\left(\frac{\theta}{2}\right) = \frac{\frac{l}{2}}{h} = \frac{l}{2h} $$
+it will be useful to simplify the result of the integral.
+
+\begin{equation}
+	\label{eq:subtriangle_moment_long}
+	\begin{split}
+		I_{T} &= \rho \int_0^h\int_{-\frac{lx}{2h}}^{\frac{lx}{2h}}x^2 + y^2 \diff y\diff x\\
+		&= 2\rho \int_0^h\int_0^{\frac{lx}{2h}} x^2 + y^2 \diff y\diff x\\
+		&= 2\rho \int_0^h \Biggl[x^2y + \frac{1}{3} y^3\Biggr]_0^{\frac{lx}{2h}} \diff x\\
+		&= 2\rho \int_0^h x^2 \frac{lx}{2h} + \frac{1}{3} \frac{l^3x^3}{8h^3} \diff x\\
+		&= 2\rho \left(\frac{l}{2h} + \frac{l^3}{24h^3}\right) \int_0^h x^3 \diff x\\
+		&= 2\rho \left(\frac{l}{2h} + \frac{l^3}{24h^3}\right)  \Biggl[ \frac{1}{4} x^4\Biggr]_0^h \\
+		&= \frac{h^4\rho}{2} \left(\frac{l}{2h} + \frac{l^3}{24h^3}\right) \\
+		&= \frac{\rho lh^3}{4} \left(1 + \frac{l^2}{12h^2}\right) \\
+		&= \frac{m_T h^2}{2} \left(1 + \frac{l^2}{12h^2}\right) \\
+		&= \frac{m_T}{2} \frac{l^2}{4 \tan^2\left(\frac{\theta}{2}\right)}\left(1 + \frac{4 \tan^2\left(\frac{\theta}{2}\right)}{12}\right) \\
+		&= \frac{m_Tl^2}{24} \left(1 + 3\cot^2\left(\frac{\theta}{2}\right)\right)
+	\end{split}
+\end{equation}

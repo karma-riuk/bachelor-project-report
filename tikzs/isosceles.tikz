@@ -1,0 +1,29 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (0, -4) {};
+		\node [style=none] (1) at (0, 4) {};
+		\node [style=none] (2) at (-1, 0) {};
+		\node [style=none] (3) at (8, 0) {};
+		\node [style=none] (4) at (0, 0) {};
+		\node [style=none] (5) at (6, 3) {};
+		\node [style=none] (6) at (6, -3) {};
+		\node [style=none] (7) at (6.5, -0.5) {\huge$h$};
+		\node [style=none] (8) at (-0.5, 3) {\huge$\frac{l}{2}$};
+		\node [style=none] (9) at (-0.75, -3) {\huge$-\frac{l}{2}$};
+		\node [style=none] (10) at (0, 3) {};
+		\node [style=none] (11) at (0, -3) {};
+		\node [style=none] (12) at (8, -0.25) {\Large$x$};
+		\node [style=none] (13) at (0.5, 4) {\Large$y$};
+		\node [style=none] (14) at (2, .5) {\Large$\frac{\theta}{2}$};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=Axis] (0.center) to (1.center);
+		\draw [style=Axis] (2.center) to (3.center);
+		\draw (4.center) to (5.center);
+		\draw (5.center) to (6.center);
+		\draw (6.center) to (4.center);
+		\draw [style=Dashed] (5.center) to (10.center);
+		\draw [style=Dashed] (11.center) to (6.center);
+		\tkzMarkAngle[size=1.5cm](3,4,5);
+	\end{pgfonlayer}
+\end{tikzpicture}

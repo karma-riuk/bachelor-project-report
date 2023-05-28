@@ -1,0 +1,32 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (-1.5, 1.5) {};
+		\node [style=none] (1) at (-4.5, -1.5) {};
+		\node [style=none] (2) at (1.5, -1.5) {};
+		\node [style=none] (3) at (4.5, 1.5) {};
+		\node [style=none] (10) at (-0.5, 4) {$z$};
+		\node [style=none] (11) at (2, 2) {};
+		\node [style=none] (12) at (4, 0) {};
+		\node [style=none] (13) at (1.5, 2) {$y$};
+		\node [style=none] (14) at (4, -0.5) {$x$};
+		\node [style=none] (15) at (-0.25, 0) {};
+		\node [style=none] (16) at (-0.25, -0.25) {};
+		\node [style=none] (17) at (-4.5, -2) {$\left(-\frac{w}{2}, -\frac{h}{2}\right)$};
+		\node [style=none] (18) at (4.5, 2) {$\left(\frac{w}{2}, \frac{h}{2}\right)$};
+		\node [style=Medium dot] (19) at (4.5, 1.5) {};
+		\node [style=Medium dot] (20) at (-4.5, -1.5) {};
+		\node [style=none] (21) at (0, -0.25) {};
+		\node [style=none] (22) at (0, 4) {};
+		\node [style=none] (23) at (-5, 5) {};
+		\node [style=none] (24) at (5, -3) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw (0.center) to (1.center);
+		\draw (1.center) to (2.center);
+		\draw (2.center) to (3.center);
+		\draw (3.center) to (0.center);
+		\draw [style=Axis] (16.center) to (11.center);
+		\draw [style=Axis] (15.center) to (12.center);
+		\draw [style=Axis] (21.center) to (22.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
