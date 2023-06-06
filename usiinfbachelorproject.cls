@@ -59,7 +59,7 @@
 %font settings
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
-\RequirePackage[charter]{mathdesign}
+\RequirePackage[charter,cal=cmcal]{mathdesign}
 \RequirePackage[scaled]{beramono}
 \renewcommand{\sfdefault}{uop}
 \renewcommand{\scshape}{%
