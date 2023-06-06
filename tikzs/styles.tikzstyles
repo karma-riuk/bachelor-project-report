@@ -11,4 +11,5 @@
 
 % Edge styles
 \tikzstyle{Axis}=[draw=black, ->]
-\tikzstyle{Dashed}=[-,dashed, style = dotted]
+\tikzstyle{Dotted}=[-, dashed, style=dotted]
+\tikzstyle{Thick}=[-, thick]
