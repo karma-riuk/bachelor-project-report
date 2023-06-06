@@ -1,0 +1,45 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (0, 5) {};
+		\node [style=none] (1) at (-10, -4) {};
+		\node [style=none] (2) at (5, -4) {};
+		\node [style=none] (3) at (0, 5.5) {$C$};
+		\node [style=none] (4) at (-10.5, -4.25) {$A$};
+		\node [style=none] (5) at (5.5, -4.25) {$B$};
+		\node [style=Medium dot] (6) at (-4.44, 1) {};
+		\node [style=Medium dot] (7) at (2.222, 1) {};
+		\node [style=none] (8) at (-6, 1) {};
+		\node [style=none] (9) at (3.25, 1) {};
+		\node [style=none] (10) at (-7, 0) {};
+		\node [style=none] (11) at (4, 0) {};
+		\node [style=none] (12) at (-2, 1) {};
+		\node [style=none] (13) at (-1, 1) {};
+		\node [style=none] (14) at (-1, 0) {};
+		\node [style=none] (15) at (-2, 0) {};
+		\node [style=Medium dot] (16) at (-1.5, 0.5) {};
+		\node [style=none] (17) at (-4.6, 1.25) {$P_1$};
+		\node [style=none] (18) at (2.4, 1.25) {$P_2$};
+		\node [style=none] (19) at (-0.5, 2.5) {$\vec r$};
+		\node [style=none] (20) at (-1.75, 0.75) {$Q$};
+		\node [style=Medium dot] (21) at (0, -4) {};
+		\node [style=none] (22) at (0.25, -4.5) {$H$};
+		\node [style=none] (23) at (0, -3.75) {};
+		\node [style=none] (25) at (0.25, -4) {};
+		\node [style=none] (26) at (0.25, -3.75) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=none] (0.center) to (1.center);
+		\draw [style=none] (1.center) to (2.center);
+		\draw [style=none] (2.center) to (0.center);
+		\draw [style=Dotted] (8.center) to (9.center);
+		\draw [style=Dotted] (10.center) to (11.center);
+		\draw [style=none] (12.center) to (15.center);
+		\draw [style=none] (15.center) to (14.center);
+		\draw [style=none] (14.center) to (13.center);
+		\draw [style=none] (13.center) to (12.center);
+		\draw [style=Axis] (0.center) to (16);
+		\draw [style=Dotted] (0.center) to (21);
+		\draw (23.center) to (26.center);
+		\draw (26.center) to (25.center);
+	\end{pgfonlayer}
+\end{tikzpicture}

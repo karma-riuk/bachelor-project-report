@@ -1,0 +1,32 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (-2, 6) {};
+		\node [style=none] (1) at (-5.75, 0) {};
+		\node [style=none] (2) at (-4.25, -5.75) {};
+		\node [style=none] (3) at (3.75, -3.5) {};
+		\node [style=none] (4) at (5.75, 0) {};
+		\node [style=none] (5) at (3.25, 3.75) {};
+		\node [style=Big dot] (6) at (0.125, 0.0833333) {};
+		\node [style=none] (7) at (0.25, 3) {$T_1$};
+		\node [style=none] (8) at (2.75, 1.5) {$T_2$};
+		\node [style=none] (9) at (3, -1.25) {$T_3$};
+		\node [style=none] (10) at (0, -2.75) {$T_4$};
+		\node [style=none] (11) at (-3.5, -1.75) {$T_5$};
+		\node [style=none] (12) at (-2.75, 2.25) {$T_6$};
+		\node [style=none] (13) at (-0.5, 0.5) {$C$};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw (0.center) to (5.center);
+		\draw (5.center) to (4.center);
+		\draw (4.center) to (3.center);
+		\draw (3.center) to (2.center);
+		\draw (2.center) to (1.center);
+		\draw (1.center) to (0.center);
+		\draw [style=Dotted] (6) to (0.center);
+		\draw [style=Dotted] (6) to (5.center);
+		\draw [style=Dotted] (6) to (4.center);
+		\draw [style=Dotted] (6) to (3.center);
+		\draw [style=Dotted] (6) to (2.center);
+		\draw [style=Dotted] (6) to (1.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
