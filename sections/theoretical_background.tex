@@ -24,9 +24,12 @@ In the case of this project the axis of rotation is the one along the $z$-axis
 the polygon.
 
 The general formula for the moment of inertia is
-$$ I_Q = \int \vec r^2 \rho(\vec r) \diff A $$
+\begin{equation}
+	\label{eq:moment_general}
+	I_Q = \int \vec r^2 \rho(\vec r) \diff \mathcal{A}
+\end{equation}
 where $\rho$ is the density of object $Q$ in the point $\vec r$ across the
-small pieces of area $A$ of the object.
+small pieces of area $\mathcal A$ of the object.
 
 In our case, since we are implementing a 2D engine we can use the $\mathbb{R}^2$
 coordinate systems, thus the formula becomes
@@ -86,6 +89,7 @@ All the steps to compute equation~\ref{eq:rect_moment} can be found in equation
 \ref{eq:rect_moment_long} in Appendix \ref{appendix:calculations}.
 
 \subsubsection{Regular Polygons}
+\label{sub:regular_polygons}
 A regular polygon is a shape that has sides of equal length and angles between
 those sides of equal measure. A polygon of $n$ sides can be subdivided in $n$
 congruent (and isosceles since they are all the radius of the circumscribing
@@ -140,8 +144,8 @@ equation \ref{eq:subtriangle_moment_long} in Appendix
 Now that we have the moment of inertia of the sub-triangle, we can make the link
 to the overall polygon. Since
 $$ \theta = \frac{2\pi}{n} \implies \frac{\theta}{2} = \frac{\pi}{n} $$
-and the moment of inertia are additive (as long they are as they are about the same
-axis) we can get the moment of inertia with
+and the moment of inertia are additive (as long they are as they are about the
+same axis) we can get the moment of inertia with
 $$ I_{\text{regular}} = n I_T $$
 and since the mass of the regular polygon $m$ is the sum of the masses of the
 sub-triangle
@@ -152,10 +156,113 @@ we have that
 	I_{\text{regular}} = \frac{ml^2}{24} \left( 1 + 3\cot^2\left(\frac{\pi}{n}\right) \right)
 \end{equation}
 
-
-
-
 \subsubsection{Arbitrary Polygons}
+
+For arbitrary polygons, we are taking a slightly different approach. Using the
+Cartesian coordinate system to solve the equation \ref{eq:moment} revealed to be
+more cumbersome than useful. But similarly to regular polygons (c.f. Section
+\ref{sub:regular_polygons}), we can use the additive property of the moment
+inertia to divide our arbitrary polygon into sub-triangles. As opposed to
+regular polygons, these triangles won't be congruent, so we can't just get the
+moment of inertia of one of them and multiply it by the number of sides, but we
+need to calculate them individually. So given a polygon of $n$ sides, we can
+construct $n$ sub-triangles $T_i$, for $i = 1, \dots, n$. So the moment of
+inertia $I$ of the polygon will be
+\begin{equation}
+	I = \sum_i I_{T_i}
+\end{equation}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[]{.5\textwidth}
+		\centering
+		\inputtikz[.7]{arbitrary}
+		\caption{An arbitrary 6-sided polygon}
+		\label{fig:arbitrary}
+	\end{subfigure}
+	\begin{subfigure}[]{.49\textwidth}
+		\centering
+		\inputtikz[.7]{arbitrary_divided}
+		\caption{Arbitrary polygon divided into 6 sub-triangles}
+		\label{fig:abitrary_divded}
+	\end{subfigure}
+\end{figure}
+
+To calculate the moment of inertia $I_{T_i}$, instead of using the classical
+$x$- and $y$-axis as we did before, we decided to use the edges of the triangle
+as axis and therefore express what we need to integrate in function of those as
+can be seen in Figure \ref{fig:abitrary_subtriangle}.
+\begin{figure}[H]
+	\centering
+	\inputtikz[.7]{arbitrary_subtriangle}
+	\caption{Sub-triangle of arbitrary polygon}
+	\label{fig:abitrary_subtriangle}
+\end{figure}
+
+In Figure \ref{fig:abitrary_subtriangle}, $C$ represent the barycenter of the
+polygon (as is shown in Figure \ref{fig:abitrary_divded}). The axis we are going
+to integrate on are $\vv{CA}$ and $\vv{AB}$.
+We can now define
+\begin{equation} \label{eq:alpha}
+	\vv{CP_1} = \alpha \vv{CA}, \qquad \vv{CP_2} = \alpha
+	\vv{CB}, \qquad \forall \alpha \in [0, 1]
+\end{equation}
+and
+$$ \vv{P_1Q} = \beta \vv{P_1P_2}, \qquad \forall \beta \in [0, 1] $$
+
+From \ref{eq:alpha}, it quickly follows that
+\[
+	\vv{P_1P_2} = \alpha \vv{AB}
+\]
+therefore
+\begin{equation} \label{eq:beta_alpha}
+	\vv{P_1Q} = \beta \alpha \vv{AB}
+\end{equation}
+Finally, if we put together equations \ref{eq:alpha} and \ref{eq:beta_alpha}, we
+have that
+\begin{equation}\label{eq:r}
+	\vec r = \vv{CP_1} + \vv{P_1Q} = \alpha \vv{CA} + \beta \alpha \vv{AB}
+\end{equation}
+
+Now we got the first part equation \ref{eq:moment_general}. To find the $\diff
+	\mathcal A$, we
+just need to get the area of the square that contains $Q$ in Figure
+\ref{fig:abitrary_subtriangle}. Since $\|\vv{AB}\|$ represents the base of the
+triangle $T_i$, we can define
+$$ b = \| \vv{AB}\| $$
+we consequently have that
+\begin{equation} \label{eq:dA}
+	\diff \mathcal{A} = b \alpha \diff \beta h\diff \alpha
+\end{equation}
+where $h = \| \vv{CH} \|$ is the height of triangle.
+We can now assemble \ref{eq:r} and \ref{eq:dA}
+\begin{equation}
+	\label{eq:subtriangle_arbitrary_moment}
+	I_{T_i} = \rho \int_0^1 \int_0^1 \vec r^2 hb \alpha  \diff \alpha
+	\diff \beta = \frac{\rho h b}{4} \left(\frac{1}{3} \vv{AB}^2 +
+	\vv{AB} \cdot \vv{CA} + \vv{CA}^2\right)
+\end{equation}
+
+Since $\frac{\rho h b}{2}$ is the mass of the triangle we can write the result
+as
+\begin{equation}
+	I_{T_i} = \frac{m_{T_i}}{2} \left(\frac{1}{3} \vv{AB}^2 + \vv{AB} \cdot \vv{CA}
+	+ \vv{CA}^2\right)
+\end{equation}
+
+
+All the steps to compute equation~\ref{eq:subtriangle_arbitrary_moment} can be
+found in equation \ref{eq:subtriangle_arbitrary_moment_long} in Appendix
+\ref{appendix:calculations}.
+
+Now that we have the moment of inertia of the sub-triangle, we can make the link
+to the overall polygon.
+\begin{equation}
+	I_{\text{arbitrary}} = \sum_i I_{T_i} = \sum_{i=1}^n \frac{m_{T_i}}{2}
+	\left(\frac{1}{3} \vv{P_iP_{i+1}}^2 + \vv{CP_i} \cdot \vv{P_iP_{i+1}} +
+	\vv{CP_i}^2\right)
+\end{equation}
+where, $P_{n+1} = P_1$ in the case of $i = n$.
+
 \subsection{Collision detection}
 \subsubsection{Separating Axis Theorem}
 \subsubsection{Vertex collisions}
