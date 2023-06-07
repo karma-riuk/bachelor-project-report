@@ -10,6 +10,9 @@
 \tikzstyle{Big dot}=[fill=black, draw=black, shape=circle, minimum size=3pt, inner sep=0, outer sep=0]
 
 % Edge styles
-\tikzstyle{Axis}=[draw=black, ->]
+\tikzstyle{Vector}=[draw=black, ->]
+\tikzstyle{Thick Vector}=[->, thick]
 \tikzstyle{Dotted}=[-, dashed, style=dotted]
+\tikzstyle{Dashed}=[-, dashed]
 \tikzstyle{Thick}=[-, thick]
+\tikzstyle{Very thick}=[-, very thick]
