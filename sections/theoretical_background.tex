@@ -264,11 +264,67 @@ to the overall polygon.
 where, $P_{n+1} = P_1$ in the case of $i = n$.
 
 \subsection{Collision detection}
+
+Collision detection, as the name suggests, are the algorithms used to detect
+whether two polygons are colliding. The result of this procedure must be an
+impact point and a normal vector, that will then be used for the  collision
+resolution \ref{sub:resolution}.
+
 \subsubsection{Separating Axis Theorem}
+
+This algorithm was the first one studied for this project and was inspired by
+the works of David Eberly \cite{convexcollisionsSAT}. The separating axis
+theorem (SAT) states that if you can draw a line between two convex objects,
+they do not overlap. We will call this line a \textit{separating line}. More
+technically, two convex shapes do not overlap if there exists an axis onto which
+the two objects' projections do not overlap. We'll call this axis a \textit{separating
+	axis}. This concept can be visualized in Figure \ref{fig:SAT-intro}.
+
+\begin{figure}[H]
+	\centering
+	\inputtikz[.7]{SAT_intro}
+	\caption{SAT: Separating axis ($A$) vs non-separating axis ($B$), with
+		separating line ($C$)}
+	\label{fig:SAT-intro}
+\end{figure}
+
+As we can see in Figure \ref{fig:SAT-intro}, the axis $B$ show that the
+projections of the both polygons overlap, but we were able to find an axis $A$
+where this is not the case. As soon as we find an axis for which the projections
+do not overlap, it means that the polygons are not colliding. For 2D objects, we
+only need to consider the axes that are orthogonal to each edge. In Figure
+\ref{fig:SAT-intro}, only two of those axes are shown for better readability,
+but they would be 7, one for each edge.
+
+To move (or push) one polygon away from the other, we also need to find a vector
+that, when added to the polygons position, will make the shapes not overlap. We
+want the minimum displacement possible, We'll call this vector the minimum push
+vector (MPV). For 2-dimensional polygons, this vector will lie in some of the
+orthogonal axes.
+
+\begin{figure}[H]
+	\centering
+	\inputtikz[.7]{SAT_mvp}
+	\caption{SAT: Minimum push vector $\vec v_i$ on axis defined by $\vec o_i$,
+		orthogonal to edge $i$}
+	\label{fig:SAT-mpv}
+\end{figure}
+
+The candidate MPVs $\vec v_i$ are the vectors that define the axis $\vec o_i$
+(orthogonal to edge $i$), with $\| \vec o_i \| = 1$, multiplied by the minimum
+overlap between the two polygons, as shown in \ref{fig:SAT-mpv}. The final MPV
+is simply the $\vec v_i$ with the smallest norm.
+
+\paragraph{Pitfalls of SAT} The issue with the SAT algorithm is that although it
+is good to find whether two polygons are colliding and the MPV, it isn't trivial
+to gather the point of impact, i.e. the vertex that is penetrating the other
+polygon. It is doable, but during the implementation, it came with some caveats
+that introduced some bugs, so we decided to switch strategy and go with an
+algorithm of our own.
+
 \subsubsection{Vertex collisions}
 
 \subsection{Collision resolution}
 \label{sub:resolution}
-\cite{collision:resolution}
 \subsubsection{Physics}
 \subsubsection{Solving for the impulse parameter}

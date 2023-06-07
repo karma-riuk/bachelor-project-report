@@ -1,0 +1,45 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (1) at (-2, 4) {};
+		\node [style=none] (2) at (4.5, 0) {};
+		\node [style=none] (3) at (-1, -2) {};
+		\node [style=none] (4) at (4, 3) {};
+		\node [style=none] (5) at (2, -3) {};
+		\node [style=none] (6) at (8, -2) {};
+		\node [style=none] (7) at (8, 0) {};
+		\node [style=none] (8) at (5, 6) {};
+		\node [style=none] (9) at (-4, 9) {};
+		\node [style=none] (10) at (14, 3) {};
+		\node [style=none] (11) at (10.1, 4.3) {};
+		\node [style=none] (12) at (6.35, 5.55) {};
+		\node [style=none] (13) at (-0.7, 7.9) {};
+		\node [style=none] (14) at (-0.620943, 8.13717) {};
+		\node [style=none] (15) at (6.42906, 5.78717) {};
+		\node [style=none] (16) at (5.15811, 6.47434) {};
+		\node [style=none] (17) at (10.2581, 4.77434) {};
+		\node [style=none] (18) at (4.92094, 5.76283) {};
+		\node [style=none] (19) at (6.27094, 5.31283) {};
+		\node [style=none] (20) at (5.25, 5.25) {\Large$\vec v_i$};
+		\node [style=none] (21) at (-3.25, 8.75) {};
+		\node [style=none] (22) at (-3.75, 8.5) {\Large$\vec o_i$};
+		\node [style=none] (23) at (1.75, -2.75) {\Large$i$};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw (1.center) to (2.center);
+		\draw (2.center) to (3.center);
+		\draw [style=Very thick] (5.center) to (4.center);
+		\draw (4.center) to (7.center);
+		\draw (7.center) to (6.center);
+		\draw (6.center) to (5.center);
+		\draw (1.center) to (3.center);
+		\draw (9.center) to (10.center);
+		\draw [style=Dashed] (4.center) to (8.center);
+		\draw [style=Dashed] (6.center) to (11.center);
+		\draw [style=Dashed] (2.center) to (12.center);
+		\draw [style=Dashed] (1.center) to (13.center);
+		\draw [style=Very thick] (14.center) to (15.center);
+		\draw [style=Very thick] (16.center) to (17.center);
+		\draw [style=Vector] (18.center) to (19.center);
+		\draw [style=Thick Vector] (9.center) to (21.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
