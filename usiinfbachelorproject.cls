@@ -71,8 +71,8 @@
 
 
 %sans-serif titles
-\RequirePackage{sectsty}
-\allsectionsfont{\normalfont}
+% \RequirePackage{sectsty}
+% \allsectionsfont{\normalfont}
 
 %geometry
 \RequirePackage[a4paper,total={170mm,257mm}]{geometry}
