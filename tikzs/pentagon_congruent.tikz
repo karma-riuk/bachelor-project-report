@@ -24,6 +24,7 @@
 		\tkzMarkAngle[mark=||](4,5,3);
 		\tkzMarkAngle[mark=||](0,5,4);
 		\node [draw] at (5.center) [circle through={(0.center)}]{};
+		% \node [draw, dashed] at (7.center) [circle through={(8.center)}]{};
 
 	\end{pgfonlayer}
 \end{tikzpicture}

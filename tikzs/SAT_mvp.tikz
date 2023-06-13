@@ -22,7 +22,7 @@
 		\node [style=none] (20) at (5.25, 5.25) {\Large$\vec v_i$};
 		\node [style=none] (21) at (-3.25, 8.75) {};
 		\node [style=none] (22) at (-3.75, 8.5) {\Large$\vec o_i$};
-		\node [style=none] (23) at (1.75, -2.75) {\Large$i$};
+		\node [style=none] (23) at (1.75, -2.75) {\Large$e_i$};
 	\end{pgfonlayer}
 	\begin{pgfonlayer}{edgelayer}
 		\draw (1.center) to (2.center);

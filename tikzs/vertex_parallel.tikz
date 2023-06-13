@@ -6,14 +6,15 @@
 		\node [style=none] (4) at (-4, -5) {};
 		\node [style=none] (5) at (2, -5) {};
 		\node [style=none] (6) at (8, 3) {};
-		\node [style=Medium dot] (7) at (-7, -1) {};
+		\node [style=none] (7) at (-7, -1) {};
 		\node [style=none] (8) at (-7, 5.25) {};
 		\node [style=Medium dot] (9) at (0, 6) {};
-		\node [style=none] (10) at (2.25, 3.25) {$V_i$};
-		\node [style=none] (11) at (0.5, 6.5) {$V_{i-1}$};
-		\node [style=none] (12) at (-2, -3.75) {$V_{i+1}$};
-		\node [style=none] (13) at (-7.5, -1.5) {$V_{i+2}$};
-		\node [style=none] (14) at (3.25, 5.25) {$e_j$};
+		\node [style=none] (10) at (2.25, 3.25) {\Large$V_i$};
+		\node [style=none] (11) at (0.5, 6.5) {\Large$V_{i-1}$};
+		\node [style=none] (12) at (-2, -3.75) {\Large$V_{i+1}$};
+		\node [style=none] (14) at (3.5, 5.25) {\Large$e_j$};
+		\node [style=none] (15) at (-3.5, 2.25) {\huge$A$};
+		\node [style=none] (16) at (2.75, 0.25) {\huge$B$};
 	\end{pgfonlayer}
 	\begin{pgfonlayer}{edgelayer}
 		\draw [style=Very thick] (2) to (1);
@@ -23,7 +24,7 @@
 		\draw (5.center) to (4.center);
 		\draw (8.center) to (9);
 		\draw (9) to (1);
-		\draw (2) to (7);
-		\draw (7) to (8.center);
+		\draw (2) to (7.center);
+		\draw (7.center) to (8.center);
 	\end{pgfonlayer}
 \end{tikzpicture}
