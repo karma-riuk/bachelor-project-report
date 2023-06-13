@@ -25,7 +25,7 @@
 		\draw (1.center) to (2.center);
 		\draw (2.center) to (3.center);
 		\draw (3.center) to (0.center);
-		\draw [style=Axis] (16.center) to (11.center);
-		\draw [style=Axis] (15.center) to (12.center);
+		\draw [style=Vector] (16.center) to (11.center);
+		\draw [style=Vector] (15.center) to (12.center);
 	\end{pgfonlayer}
 \end{tikzpicture}

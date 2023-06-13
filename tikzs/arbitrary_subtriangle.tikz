@@ -37,7 +37,7 @@
 		\draw [style=none] (15.center) to (14.center);
 		\draw [style=none] (14.center) to (13.center);
 		\draw [style=none] (13.center) to (12.center);
-		\draw [style=Axis] (0.center) to (16);
+		\draw [style=Vector] (0.center) to (16);
 		\draw [style=Dotted] (0.center) to (21);
 		\draw (23.center) to (26.center);
 		\draw (26.center) to (25.center);
