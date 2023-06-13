@@ -1,0 +1,28 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (1) at (1.75, 3.5) {};
+		\node [style=none] (2) at (-2.25, -2.5) {};
+		\node [style=none] (3) at (4, 7) {};
+		\node [style=none] (4) at (-4, -5) {};
+		\node [style=none] (5) at (2, -5) {};
+		\node [style=none] (6) at (8, 3) {};
+		\node [style=none] (7) at (-7.25, -0.5) {};
+		\node [style=none] (8) at (-7.25, 5.75) {};
+		\node [style=none] (9) at (-0.25, 6.5) {};
+		\node [style=none] (10) at (-3.75, 2.75) {\huge$A$};
+		\node [style=none] (11) at (2.75, 0.25) {\huge$B$};
+		\node [style=none] (12) at (-8, 7) {};
+		\node [style=none] (13) at (8, -5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=Very thick] (2.center) to (1.center);
+		\draw [style=Very thick] (4.center) to (3.center);
+		\draw (3.center) to (6.center);
+		\draw (6.center) to (5.center);
+		\draw (5.center) to (4.center);
+		\draw (8.center) to (9.center);
+		\draw (9.center) to (1.center);
+		\draw (2.center) to (7.center);
+		\draw (7.center) to (8.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
