@@ -5,14 +5,17 @@
 \usepackage[]{subcaption}
 \usepackage[]{float}
 \usepackage[]{multicol}
+\usepackage{mathtools}
 
 \usepackage{tikz}
 \usepackage{tkz-euclide}
-\usetikzlibrary{external,shapes,through}
+\usetikzlibrary{external,shapes,through,arrows}
 
 \tikzexternalize[prefix=figures/]
 \tikzstyle{none}=[]
 \input{./tikzs/styles.tikzstyles}
+
+\tikzset{>=stealth}
 
 \pgfdeclarelayer{nodelayer}
 \pgfdeclarelayer{edgelayer}
@@ -20,10 +23,7 @@
 
 \graphicspath{{../figures/}{./figures/}}
 
-
 \newcommand*{\vv}[1]{\overrightarrow{#1}}
-
-
 \newcommand*{\figref}[1]{\figurename~\ref{#1}}
 
 \captionsetup{labelfont={bf}}

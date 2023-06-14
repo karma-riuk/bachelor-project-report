@@ -6,6 +6,7 @@ polygons; the resolution of the collision, i.e. finding the final
 velocity vectors and angular speed of those polygons.
 
 \subsection{Moment of inertia}
+\label{sub:moment}
 
 The inertia of an object refers to the tendency of an object to resist a change
 of its state of motion or rest, it describes how the object behaves when forces
@@ -264,6 +265,7 @@ to the overall polygon.
 where, $P_{n+1} = P_1$ in the case of $i = n$.
 
 \subsection{Collision detection}
+\label{sub:collision-detection}
 
 Collision detection, as the name suggests, are the algorithms used to detect
 whether two polygons are colliding. The result of this procedure must be an
@@ -462,3 +464,161 @@ find the normal. The results look realistic enough to be accepted.
 
 \subsection{Collision resolution}
 \label{sub:resolution}
+
+The collision resolution is the last step in the processing of the collision.
+Algorithmically, it is much less heavy than collision detection, since, once the
+simulation has two colliding polygons, a point of impact and a normal vector,
+it's just a case of applying the rigid body physics formulas to the polygons
+that are colliding. This part has been helped a lot by the works of Erik Neumann
+\cite{collision:resolution-site} and Chris Hecker
+\cite{collision:resolution-paper}.
+
+\begin{figure}[H]
+	\centering
+	\inputtikz[.5]{collision_resolution}
+	\caption{Collision resolution between polygons $A$ and $B$}
+	\label{fig:collision_resolution}
+\end{figure}
+
+\paragraph{Variable definition} Before getting into any maths, let's define some
+variables that we are going to use
+
+\begin{multicols}{2}
+	\begin{itemize}
+		\item $m_a, m_b = $ mass of the bodies $A$ and $B$
+		\item $\vec r_{ap} = $ distance vector from center of mass of body $A$ to
+		      point $P$
+		\item $\vec r_{bp} = $ distance vector from center of mass of body $A$ to
+		      point $P$
+		\item $\omega_{a1}, \omega_{b1} = $ initial angular velocity of bodies
+		      $A, B$
+		\item $\omega_{a2}, \omega_{b2} = $ final angular velocity of bodies
+		      $A, B$
+		\item $\vec v_{a1}, \vec v_{b1} =$ initial velocities of center of mass
+		      bodies $A, B$
+		\item $\vec v_{a2}, \vec v_{b2} =$ final velocities of center of mass
+		      bodies $A, B$
+		\item $\vec v_{ap1}=$ initial velocity of impact point $P$ on body $A$
+		\item $\vec v_{bp1}=$ initial velocity of impact point $P$ on body $B$
+		\item $\vec v_{p1}=$ initial relative velocity of impact points on body $A, B$
+		\item $\vec v_{p2}=$ final relative velocity of impact points on body $A, B$
+		\item $\vec n=$ normal vector
+		\item $ e=$ elastic coefficient (0 = inelastic, 1 = perfectly elastic)
+	\end{itemize}
+\end{multicols}
+
+Some of those variables, like the ones in the left column, are already given by
+the simulation, some of them have been computed thanks to the algorithms in
+section \ref{sub:collision-detection} (normal vector and position of point $P$),
+and some have still to be defined mathematically, such as $\vec v_{ap1},\vec
+	v_{bp1},\vec v_{p1}$ and $\vec v_{p2}$. So the velocity vectors of impact
+point $P$ on both bodies, before the collision, are
+\begin{equation} \label{eq:vabp1}
+	\begin{split}
+		\vec v_{ap1} = \vec v_{a1} + \omega_{a1} \times \vec r_{ap} \\
+		\vec v_{bp1} = \vec v_{b1} + \omega_{b1} \times \vec r_{bp}
+	\end{split}
+\end{equation}
+
+Similarly, the final velocities are
+\begin{equation} \label{eq:vabp2}
+	\begin{split}
+		\vec v_{ap2} = \vec v_{a2} + \omega_{a2} \times \vec r_{ap}\\
+		\vec v_{bp2} = \vec v_{b2} + \omega_{b2} \times \vec r_{bp}
+	\end{split}
+\end{equation}
+Here we are regarding the angular velocity as a 3-dimensional vector
+perpendicular to the plane, so that the cross product is calculated as
+
+$$ \omega \times \vec r = \begin{pmatrix} 0\\0\\\omega \end{pmatrix} \times
+	\begin{pmatrix} r_x\\r_y\\0 \end{pmatrix} = \begin{pmatrix} -\omega r_y \\
+		\omega r_x  \\0\end{pmatrix}  $$
+
+We these variables, we can finally define the relative velocities $\vec
+	v_{p1}$ and $\vec v_{p2}$
+
+\[ \begin{split}
+		\vec v_{p1} = \vec v_{ap1} - \vec v_{bp2}\\
+		\vec v_{p2} = \vec v_{ap2} - \vec v_{bp2}
+	\end{split} \]
+If we expand by using \ref{eq:vabp1} and \ref{eq:vabp2}, we get
+\begin{equation}
+	\begin{split}
+		\vec v_{p1} = \vec v_{a1} + \omega_{a1} \times \vec r_{ap} - \vec v_{b1}
+		+ \omega_{b1} \times \vec r_{bp}\\
+		\vec v_{p2} = \vec v_{a2} + \omega_{a2} \times \vec r_{ap} - \vec v_{b2} + \omega_{b2} \times \vec r_{bp}
+	\end{split}
+\end{equation}
+
+The relative velocity of point $P$ along the normal vector $\vec n$ is
+$$ \vec v_{p1} \cdot \vec n $$
+Note that for a collision to occur this relative normal velocity must be
+negative (that is, the objects must be approaching each other). Let e be the
+elasticity of the collision, having a value between 0 (inelastic) and 1
+(perfectly elastic). We now make an important assumption in the form of the
+following relation
+\begin{equation}
+	\label{eq:vp2n}
+	\vec v_{p2} \cdot \vec n = - e \vec v_{p1} \cdot \vec n
+\end{equation}
+This says that the velocity at which the objects fly apart is proportional to
+the velocity with which they were coming together. The proportionality factor is
+the elasticity $e$.
+
+\paragraph{Collision Impulse} In simple terms, collision impulse refers to the
+change in momentum experienced by an object during a collision. It is a measure
+of the force applied to an object over a short period of time. We imagine that
+during the collision there is a very large force acting for a very brief period
+of time. If you integrate (sum) that force over that brief time, you get the
+impulse.
+
+In our simulation, we are assuming that no friction is happening during the
+collision, so that the only force we have to consider is the one of along the
+normal vector $\vec n$. The friction would create a force perpendicular to the
+normal, and it would make things a little too complicated for the scope of this
+project.
+
+Since the only force we consider is the normal one, we can consider the net
+impulse to be $j \vec n$, where $j$ is the impulse parameter. The body $A$ will
+experience the net impulse $j \vec n$ and body $B$ will experience it's negation
+$- j \vec n$ since the force that $B$ experience is equal an opposite to the one
+experienced by $A$. The impulse is a change in momentum. Momentum has units of
+velocity times mass, so if we divide the impulse by the mass we get the change
+in velocity. We can relate initial and final velocities as
+
+\begin{equation}
+	\label{eq:va2}
+	\vec v_{a2} = \vec v_{a1} +  \frac{j\vec n}{m_a}
+\end{equation}
+\begin{equation}
+	\label{eq:vb2}
+	\vec v_{b2} = \vec v_{b1} -  \frac{j\vec n}{m_b}
+\end{equation}
+
+
+For the final angular speed, it's change from the impulse $j\vec n$ is given by
+$\vec r_{ap} \times j \vec n$. We can divide the result by the moment of
+inertia, which was calculated in section \ref{sub:moment}, to get convert the
+change in angular momentum into change in angular speed. Similarly as above, we
+can relate the initial and final angular velocity as
+
+\begin{equation}
+	\label{eq:omega_a2}
+	\omega_{a2} = \omega_{a1} + \frac{\vec r_{ap} \times j\vec n}{I_a}
+\end{equation}
+\begin{equation}
+	\label{eq:omega_b2}
+	\omega_{b2} = \omega_{b1} - \frac{\vec r_{bp} \times j\vec n}{I_b}
+\end{equation}
+
+\paragraph{Solving for the impulse parameter}
+Now we have everything we need to solve for the impulse parameter $j$. The bulk
+of the calculations can be found in section \ref{app:impulse_long} of the
+appendix \ref{appendix:calculations}. But basically we start with equation
+\ref{eq:vp2n} and we end up with
+\begin{equation}
+	\label{eq:j}
+	j = \frac{ - (1+e) \cdot \vec v_{ap1} \cdot \vec n }{\frac{1}{m_a} + \frac{1}{m_b} +
+		\frac{\left( \vec r_{ap} \times \vec n \right)^2}{I_a} + \frac{\left( \vec
+			r_{bp} \times \vec n \right)^2}{I_b}}
+\end{equation}
