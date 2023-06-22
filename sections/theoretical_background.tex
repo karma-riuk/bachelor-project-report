@@ -1,4 +1,5 @@
 \section{Theoretical Background}
+\label{sec:theory}
 The theoretical background is everything related to the physics part of the
 project. It covers the calculating the inertia of different types of polygons;
 different algorithms to detect whether there is a collision between two
@@ -326,6 +327,7 @@ algorithm of our own. Moreover, SAT only supports convex polygons, which limits
 the original objective of the project, which was to have any arbitrary polygon.
 
 \subsubsection{Vertex collisions}
+\label{sub:vertex-collision}
 
 The solution that was adopted for the project, after trying SAT, was a more
 intuitive one, developed by Prof. Carzaniga. The idea is simple: check if a
@@ -537,10 +539,13 @@ $$ \omega \times \vec r = \begin{pmatrix} 0\\0\\\omega \end{pmatrix} \times
 We these variables, we can finally define the relative velocities $\vec
 	v_{p1}$ and $\vec v_{p2}$
 
-\[ \begin{split}
+\begin{equation}
+	\label{eq:vp1}
+	\begin{split}
 		\vec v_{p1} = \vec v_{ap1} - \vec v_{bp2}\\
 		\vec v_{p2} = \vec v_{ap2} - \vec v_{bp2}
-	\end{split} \]
+	\end{split}
+\end{equation}
 If we expand by using \ref{eq:vabp1} and \ref{eq:vabp2}, we get
 \begin{equation}
 	\begin{split}
