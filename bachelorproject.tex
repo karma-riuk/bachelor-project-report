@@ -6,6 +6,7 @@
 \usepackage[]{float}
 \usepackage[]{multicol}
 \usepackage{mathtools}
+\usepackage[]{listings}
 
 \usepackage{tikz}
 \usepackage{tkz-euclide}
@@ -20,6 +21,25 @@
 \pgfdeclarelayer{nodelayer}
 \pgfdeclarelayer{edgelayer}
 \pgfsetlayers{edgelayer,nodelayer,main}
+
+
+\lstset{language=C++,
+	basicstyle=\ttfamily,
+	keywordstyle=\color{blue}\ttfamily,
+	stringstyle=\color{red}\ttfamily,
+	commentstyle=\color{green}\ttfamily,
+	morecomment=[l][\color{magenta}]{\#},
+	emph={std, vector, vec2d, polygon, collision},
+	emphstyle=\color{orange}\ttfamily,
+	numbers=left,
+	morekeywords={uint},
+	numberstyle=\footnotesize,
+	numbersep=5pt,
+	frame=lines,
+	% breaklines=true,
+	% breaklines=true,
+	% postbreak=\raisebox{0ex}[0ex][0ex]{\space\ensuremath{\hookrightarrow}},
+}
 
 \graphicspath{{../figures/}{./figures/}}
 

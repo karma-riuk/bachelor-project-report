@@ -1,1 +1,178 @@
 \section{Implementation}
+
+This section will dive into the actual implementing of the project, trying to
+describe how the theoretical concepts in section \ref{sec:theory}.
+
+\subsection{Structure}
+
+The added code to the project can be divided into three parts
+\begin{itemize}
+	\item polygon generator;
+	\item collision detection;
+	\item collision resolution.
+\end{itemize}
+
+Each part will be explained in the following sub-sections.
+
+\subsubsection{Polygon generator}
+Before talking about how we generate polygons, let's first talk about how the
+polygons are defined in this project.
+
+In the file \texttt{polygons.h} we define a polygon as
+
+\begin{lstlisting}[caption={Polygon class (simplified)},label={lst:polygon}]
+class polygon {
+    std::vector<vec2d> points;
+
+    vec2d center;
+    double angle;
+
+    double inertia;
+    double mass;
+
+    std::vector<vec2d> global_points();
+
+    vec2d speed;
+    double angular_speed;
+}
+\end{lstlisting}
+
+Polygons possesses multiple fields. Firstly we have
+\lstinline{std::vector<vec2d> points}, a collection of
+\lstinline{vec2d} objects, which represent the set of ordered points that
+compose the polygon. Those points are expressed in local coordinates, and the
+center of mass of the polygon is placed the origin.
+
+Now that we know how the polygon is composed, we want to move it around the
+space it lives in, that is the purpose of the \lstinline{vec2d center} field.
+It represents where the center of mass of the polygon is located in simulation.
+Since the shapes also rotate, we need to keep track of the rotation of the
+polygon, hence the use of \lstinline{double angle}. All of these fields are used
+when computing the result of the method \lstinline{std::vector<vec2d> global_points()}.
+
+Finally, we have \lstinline{double inertia} and \lstinline{double mass} which,
+as their name suggest, store the value for the polygon's inertia and mass, that
+are used to calculate the polygons final speed and angular speed, who are
+represented by \lstinline{vec2d speed} and \lstinline{double angular_speed}.
+
+\paragraph{Polygon generator} Now that we know how polygons are represented in
+our simulation, we can generate them. In \texttt{polygon\_generator.h} (and its
+implementation file \texttt{polygon\_generator.cc}), there are some functions
+for that. In Listing \ref{lst:polygon_gen} we can see the signature of the
+functions that generate
+\begin{itemize}
+	\item a rectangle of a certain width and height;
+	\item a square of a certain side length;
+	\item a triangle given two side lengths and an angle between them;
+	\item a regular polygon;
+	\item an arbitrary polygon.
+\end{itemize}
+
+\begin{lstlisting}[caption={Polygon Generator header
+file},label={lst:polygon_gen}]
+namespace poly_generate {
+    polygon rectangle(double width, double height);
+
+    inline polygon square(double width) {
+        assert(width > 0);
+        return rectangle(width, width, label);
+    };
+
+    polygon triangle(double side1, double side2, double angle);
+
+    polygon regular(double radius, uint n_sides);
+
+    polygon general(std::vector<vec2d> points);
+};
+\end{lstlisting}
+
+The implementation of those functions are fairly straight forward, they generate
+the appropriate number of points in the correct place. After what they calculate
+the mass and subsequent inertia of the polygon as shown in section
+\ref{sub:moment}.
+
+\subsubsection{Collision}
+\label{sub:implementation-collision-detection}
+
+The algorithm described in section~\ref{sub:vertex-collision} is implemented in
+\texttt{collision.cc} and exposed to other modules with \texttt{collision.h}.
+
+The module exposes a collision structure and a collides function.
+
+\begin{lstlisting}[caption={Collision header file},label={lst:collision}]
+struct collision {
+    bool collides = false;
+    vec2d impact_point;
+    vec2d n;
+    vec2d overlap;
+};
+
+extern collision collides(polygon& p, polygon& q);
+\end{lstlisting}
+
+The \lstinline{collides} function takes in two polygons and checks with
+vertex-collision algorithm whether they collide or not. The result is return
+through an instance of \lstinline{struct collision}. The \lstinline{bool collides}
+and \lstinline{vec2d impact_point} fields is self-explanatory. The
+\lstinline{vec2d n} is the normal vector that pushes \lstinline{polygon& p} away
+from \lstinline{polygon& q}. Finally, \lstinline{vec2d overlap} is a scalar
+multiplication of \lstinline{vec2d n}. Where the latter is a normalized vector,
+the former represents how deep \lstinline{p} is in \lstinline{q}. If we push
+\lstinline{p} the exact amount of \lstinline{overlap}, then \lstinline{p} would
+just be touching \lstinline{q} with point \lstinline{impact_point}, and no
+further overlap would occur.
+
+In reality, we do not simply push \lstinline{p} by \lstinline{overlap}, but we
+push \lstinline{p} and \lstinline{q} away from each other proportionally to
+their mass.
+
+\paragraph{Collision resolution} In \texttt{polygons.cc}, among other functions,
+we apply the collision resolution, which simply uses the physics results found
+in \ref{sub:resolution}.
+
+\subsection{Optimization}
+
+In order to optimise the collision detection and to avoid having to do a check
+whether each vertex of every polygon was colliding with each edge of every other
+polygon we decided to apply the bounding box acceleration structure.
+
+The bounding box of an object is, in two dimensions, the rectangle that contains
+the object and which the sides are aligned with axis of the coordinate system.
+
+\begin{figure}[H]
+	\centering
+	\inputtikz[.7]{bounding_box}
+	\caption{Bounding box example}
+	\label{fig:bounding-box}
+\end{figure}
+
+To get the four coordinates that compose, we just perform a linear scan through
+all the points that compose a polygon, record the minimum and maximum of both
+they $x$ and $y$ coordinate.
+
+Once those points have been found, we just perform some basic axis-aligned
+rectangle collision detection, which is much less computationally expensive than
+checking each vertex-edge pair.
+
+The complexity of the collision detection algorithm went from $\mathcal{O}(n^2)$
+to $\mathcal{O}(n)$, where $n$ is the total number of vertices across all
+polygons in the simulation.
+
+
+\subsection{Known issues}
+
+The simulation has one major flaw, and it is inherent to the last part of
+section \ref{sub:implementation-collision-detection} where we talk about the
+\lstinline{overlap} vector: we said that this vector allows to displace both
+polygons so that and the end of the collision resolution, they are not
+overlapping anymore. This was done to avoid issues where the collision
+resolution had taken place in one frame, but the polygons were still overlapping
+in the following frame, which lead to polygons getting stuck together.
+
+The unfortunate consequence of such a decision is that, when we start playing
+around with the restitution coefficient and all the shapes start falling to the
+ground, the shapes are not able to rest still. Since there is gravity, at each
+frame their speed get updated to simulate its effect, but since they are lying
+on the floor, the collision detection algorithm kicks in right away, resulting
+in the polygon getting pushed completely up, since the ground has infinite mass.
+This results in the polygon bouncing on the floor instead of lying down.
