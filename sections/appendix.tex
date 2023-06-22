@@ -66,6 +66,34 @@ $$ \vec r = \alpha \vv{CA} + \beta \alpha \vv{AB} $$
 \newpage
 \subsection{Solving for impulse parameter}
 \label{app:impulse_long}
-[to be done :)]
+We start with equation \ref{eq:vp2n}:
+\begin{equation*}
+	\begin{split}
+		\vec v_{p2} \cdot \vec n &= - e \vec v_{p1} \cdot \vec n\\
+		\left(\vec v_{ap2} - \vec v_{bp2}\right)\cdot \vec n &= - e \vec v_{p1} \cdot \vec n\\
+		\left( \vec v_{a2} + \omega_{a2} \times \vec r_{ap} - \vec v_{b2} - \omega_{b2} \times \vec r_{bp}
+		\right)\cdot \vec n &= - e \vec v_{p1} \cdot \vec n\\
+	\end{split}
+\end{equation*}
+
+We now expand the bracket on the left-hand side using the equations \ref{eq:va2}
+- \ref{eq:omega_b2} and then simplify with equation \ref{eq:vp1}.
+
+\[
+	\begin{split}
+		\left( \vec v_{a1} +  \frac{j\vec n}{m_a} + \omega_{a1} + \frac{\vec r_{ap} \times j\vec n}{I_a} \times \vec r_{ap} - \vec v_{b1} +  \frac{j\vec n}{m_b} - \omega_{b1} + \frac{\vec r_{bp} \times j\vec n}{I_b} \times \vec r_{bp} \right)\cdot \vec n &= - e \vec v_{p1} \cdot \vec n\\
+		\left( \frac{j\vec n}{m_a} + \frac{\vec r_{ap} \times j\vec n}{I_a} \times \vec r_{ap} +  \frac{j\vec n}{m_b} + \frac{\vec r_{bp} \times j\vec n}{I_b} \times \vec r_{bp} \right)\cdot \vec n &= - (1+e) \vec v_{p1} \cdot \vec n\\
+	\end{split}
+\]
+Using the triple scalar product rule, we can derive that
+\[
+	j \left( 1/m_a + 1/m_b + \frac{\left(( \vec r_{ap} \times \vec n
+			)^2\right)}{I_a} + \frac{\left( \vec r_{bp} \times \vec n \right)^2}{I_b}
+	\right) = -(1+e) \vec v_{p1} \cdot \vec n
+\]
+and therefore
 \begin{equation}
+	j = \frac{ - (1+e) \cdot \vec v_{ap1} \cdot \vec n }{\frac{1}{m_a} + \frac{1}{m_b} +
+		\frac{\left( \vec r_{ap} \times \vec n \right)^2}{I_a} + \frac{\left( \vec
+			r_{bp} \times \vec n \right)^2}{I_b}}
 \end{equation}
