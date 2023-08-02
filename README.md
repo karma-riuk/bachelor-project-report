@@ -14,7 +14,9 @@ discussed in a broad overview without going to deep in implementation details.
 If you are interested in such details, feel free to take a look at the code
 at [karma-riuk/flying-balls](https://github.com/karma-riuk/flying-balls).
 
-The full report is available [here](bachelorproject.pdf).
+The full report is available [here](bachelorproject.pdf). It contains 4905 words
+(as per the `texcount -1 -merge -sum bachelorproject.tex` command) spanned over
+22 pages.
 
 ## Table of contents
 
@@ -38,6 +40,4 @@ Here is the table of contents of the report
 
 ## Contact
 
-If you have any question concerning this work, feel free to contact me at
-
-[arno.fauconnet@gmail.com](mailto:arno.fauconnet@gmail.com)
+If you have any question concerning this work, feel free to contact me at [arno.fauconnet@gmail.com](mailto:arno.fauconnet@gmail.com)
