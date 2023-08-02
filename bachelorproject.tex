@@ -67,25 +67,25 @@
 	}
 }
 
-\abstract {
-	Physics engines are a fun and interesting way to learn about a lot of
-	different subjects. First the theoretical concepts, such as the equations
-	that dictate the motion of the objects, together with their components, need
-	to be thoroughly understood. Then there is the necessity of finding a way to
-	represent all of those concepts in a given programming language and to
-	make them as efficient as possible so that the simulation runs fluidly.
-	The task to be completed here was to extend an already existing
-	physics engine that only made circles bounce off each other. The extension
-	was focused on having the ability to generate some arbitrary polygons and
-	make them bounce off each other in a physically accurate way. The main
-	issues that rose up during the development of the extension: determining the
-	inertia of a arbitrary polygon, which is important for realistic
-	impacts; having an accurate collision detection system, which allows the
-	engine to know when to make two polygons bounce off each other. Once those
-	aspects were worked on and polished, the rest of the implementation went
-	smoothly.
-
-}
+\abstract {Physics engines are a fun and interesting way to learn
+  about a the laws of physics, as well as computer science.  They
+  provide a real-time simulation of common physical phenomena, and
+  therefore illustrate theoretical concepts such as the equations that
+  dictate the motion of objects, The goal of this project was to
+  extend an existing physics engine built for demonstration purposes.
+  This engine was initially designed and developed to simulate
+  circular objects (``balls'') in 2D. With this project, we intended
+  to extend this engine to also simulate arbitrary polygons, again in
+  a physically accurate way. The main technical challenges of the
+  project is therefore the correct simulation of the dynamics of
+  rigid, polygonal objects.  In particular, we developed a model of
+  polygonal rigid objects; we implemented a simulation of their
+  inertial motion, possibly in the presence of a constant force field
+  such as gravity; we detect collisions between objects; we compute
+  and then simulate the dynamic effects of collisions.  The
+  simulations are animated and displayed in real-time.  It is also
+  therefore crucial that the simulation code be efficient to obtain
+  smooth animations.}
 
 \counterwithin{figure}{section}
 \counterwithin{equation}{section}

@@ -1,46 +1,61 @@
 \section{Theoretical Background}
 \label{sec:theory}
 The theoretical background is everything related to the physics part of the
-project. It covers the calculating the inertia of different types of polygons;
-different algorithms to detect whether there is a collision between two
-polygons; the resolution of the collision, i.e. finding the final
+project. It covers the calculation of the inertia of different types of polygons;
+different algorithms to detect whether there is a collision between
+any two polygons; and the resolution of the collision, that is, finding the final
 velocity vectors and angular speed of those polygons.
 
-\subsection{Moment of inertia}
+\subsection{Moment of Inertia}
 \label{sub:moment}
 
-The inertia of an object refers to the tendency of an object to resist a change
-of its state of motion or rest, it describes how the object behaves when forces
-are applied to it. An object with a lot of inertia requires more force to change
-its motion, either to make it move if it's at rest or to stop it if it's already
-moving. On the other hand, an object with less inertia is easier to set in
-motion or bring to a halt.
+The inertia of an object refers to the tendency of an object to resist
+a change of its state of motion or rest, it describes how the object
+behaves when forces are applied to it. In particular, the mass of a
+point object (inertial mass) determines the inertia of that objects.
+Thus an object with a large mass requires more force to change its
+motion, either to make it move from an initial state at rest or to
+stop it if it is already moving. On the other hand, an object with a
+smaller mass is easier to set in motion or to bring to a halt.
 
-The moment of inertia is similar but is used in a slightly different context, it
-specifically refers to the rotational inertia of an object. It measures an
-object's resistance to changes in its rotational motion and how its mass is
-distributed with respect to is axis of rotation.
+For objects that are not point-like, the motion includes a rotational
+component.
 
-In the case of this project the axis of rotation is the one along the $z$-axis
-(perpendicular to the plane of the simulation) and placed at the barycenter of
-the polygon.
+The moment of inertia is analogous to the mass in determining the
+inertia of an object with respect to its rotational motion. In other
+words, the moment of inertia determines the rotational inertia of an
+object, that is, the object's resistance to changes in its rotational
+motion.  The moment of inertia of an object is therefore computed with
+respect to a rotation axis, and it is determined by the way the mass
+of the object is distributed with respect to the chosen axis of
+rotation.
 
-The general formula for the moment of inertia is
+
+For the purpose of this project, we are interested in a 2D simulation.
+This means that the axis of rotation is always parallel to the
+$z$-axis, perpendicular to the plane of the simulation.  Furthermore,
+we model the motion of an object using the barycenter of an object as
+its reference point.  We therefore compute the moment of inertia of a
+polygon with respect to a rotation axis that is perpendicular to the
+2D plane and that goes through the center of mass of the polygon.
+
+In general, the moment of inertia about a rotation axis $Z$ of a point
+mass $m$ at distance $r$ from $Z$ is $I_m=mr^2$.  Therefore, for a
+generic 2D object $Q$, we integrate over the whole 2D object:
 \begin{equation}
 	\label{eq:moment_general}
-	I_Q = \int \vec r^2 \rho(\vec r) \diff \mathcal{A}
+	I_Q = \int_{\mathcal{A}}\|\vec r\|^2 \rho(\vec r) \diff \mathcal{A}
 \end{equation}
-where $\rho$ is the density of object $Q$ in the point $\vec r$ across the
-small pieces of area $\mathcal A$ of the object.
+where $\rho$ is the density of object $Q$ (mass per unit area) in the
+point $\vec r$ from the across the small pieces of area $\mathcal A$
+of the object.
 
-In our case, since we are implementing a 2D engine we can use the $\mathbb{R}^2$
-coordinate systems, thus the formula becomes
-$$ I_Q = \iint \rho(x, y) \vec r^2 \diff x\diff y$$
-and since the requirements express that the mass of the polygons is spread
-uniformly across its surface, the formula finally becomes
+In our case, we use 2D Cartesian coordinates centered in the point
+(axis) about which we compute he moment of inertia.  Furthermore, we
+consider polygons of uniform density.  We can therefore compute:
 \begin{equation}
 	\label{eq:moment}
-	I_Q = \rho \iint x^2 + y^2 \diff x\diff y
+	I_Q = \rho \iint(x^2 + y^2)\diff x\diff y
 \end{equation}
 
 The bounds of the integral depend on the shape of the polygon. In the following
